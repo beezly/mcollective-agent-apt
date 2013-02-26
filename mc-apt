@@ -1,0 +1,25 @@
+#!/usr/bin/env ruby
+
+require 'mcollective'
+include MCollective::RPC
+
+options = rpcoptions do |parser, options|
+end
+
+if ARGV.length == 1
+    command = ARGV.shift
+else
+    puts("Please specify a command.")
+    exit 1
+end
+
+mc = rpcclient("apt", :options => options)
+
+mc.send(command) do |resp|
+  begin
+    printf("%-40s: %s\n", resp[:senderid], resp[:body][:data][:packages].count)
+    resp[:body][:data][:packages].each { |package| printf("%-30s: %s to %s\n", package[:name], package[:old_version], package[:new_version]) }
+  rescue RPCError => e
+    puts "The RPC agent returned an error: #{e}"
+  end
+end
