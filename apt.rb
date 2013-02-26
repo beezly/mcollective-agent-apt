@@ -19,15 +19,14 @@ module MCollective
                             :distribution => match[7],
                             :source => match[8],
                             :architecture => match[9] }
-            end
           end
-          operations.select { |x| x[:operation] == 'Inst' }
         end
+        operations.select { |x| x[:operation] == 'Inst' }
+      end
           
-        def get_upgrades_action
-          reply.data[:packages] = waiting_updates
-        end
-
+      def get_upgrades_action
+        reply.data[:packages] = waiting_updates
+      end
+    end
   end
-end
 end
