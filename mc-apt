@@ -23,6 +23,9 @@ mc.send(command) do |resp|
       printf("%-40s: %s\n", resp[:senderid], resp[:body][:data][:packages].count)
       resp[:body][:data][:packages].each { |package| printf("%-30s: %s to %s\n", package[:name], package[:old_version], package[:new_version]) }
 
+    when "update"
+      puts resp[:body][:data][:output]
+      
     else 
       raise RPCError, "Can't handled response for #{resp[:body][:action]}"
     end
