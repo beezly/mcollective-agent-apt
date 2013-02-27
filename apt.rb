@@ -1,6 +1,10 @@
 module MCollective
   module Agent
     class Apt<RPC::Agent
+      activate_when do
+        Facts["osfamily"] == 'Debian'
+      end
+      
       def apt_run cmdline
         out=`#{cmdline}`.split "\n"
       end
